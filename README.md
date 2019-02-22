@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 To Run this project just run the below command
 
-  `npm start`
+  `yarn start`
 
 ###### Note** To tackle CORS issue we have used the Express server as a proxy which will run on port 8080
 
