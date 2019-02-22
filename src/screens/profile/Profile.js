@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import './Profile.css';
 import Header from '../../common/header/Header';
-import * as constants from '../../constants'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import OWNER_INFO_DATA from '../../Mocks/owner_info'
-import OWNER_RECENT_MEDIA from '../../Mocks/owner_recent_media'
+//import OWNER_INFO_DATA from '../../Mocks/owner_info'
+//import OWNER_RECENT_MEDIA from '../../Mocks/owner_recent_media'
 import ImageGridList from '../../common/image-grid-list/index'
 import ModalBox from '../../common/modal/index'
 import Icon from '@material-ui/core/Icon';
@@ -21,43 +20,55 @@ class Profile extends Component {
             openDetailModal:false,
             selectedImage:null,
             comment:'',
-            full_name:''
+            full_name:'',
+            liked:false,
+            likeCount:0
         }
     }
+    getOwnerInfo=()=>{
+        let data = null
+        let url = 'http://localhost:8080/owner-info'
+        let xhr = new XMLHttpRequest();
+        let self = this
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+             let OWNER_INFO_DATA = JSON.parse(this.responseText)
+             self.setState({USER_DATA:OWNER_INFO_DATA.data, full_name:OWNER_INFO_DATA.data.full_name})
+            }
+          }
+          xhr.open("GET", url);
+          xhr.send(data)
+    }
+    getOwnerMedia =()=>{
+        let data = null
+        let url = 'http://localhost:8080/owner-media'
+        let xhr = new XMLHttpRequest();
+        let self = this
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+             let OWNER_RECENT_MEDIA = JSON.parse(this.responseText)
+             self.setState({USER_MEDIA:OWNER_RECENT_MEDIA.data})
+            }
+          }
+          xhr.open("GET", url);
+          xhr.send(data)
+    }
+    
     componentDidMount() {
+        this.getOwnerInfo()
+        this.getOwnerMedia()
         
-        // let data = null
-        // let url = 'http://localhost:8080/owner-info'
-        // var xhr = new XMLHttpRequest();
-        // xhr.onreadystatechange = function() {
-        //     if (this.readyState == 4 && this.status == 200) {
-        //      console.log(this.responseText)
-        //     }
-        //   }
-        //   xhr.open("GET", url);
-        //   xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-        //   xhr.setRequestHeader('Cache-control', 'no-cache')
-        //   xhr.send(data)
-        //   xhr.onload = function() {
-        //     if (xhr.status != 200) { // analyze HTTP status of the response
-        //       // if it's not 200, consider it an error
-        //       alert(xhr.status + ': ' + xhr.statusText); // e.g. 404: Not Found
-        //     } else {
-        //       // show the result
-        //       console.log(xhr.responseText); // responseText is the server response
-        //     }
-        //   };
         
         // fetch('http://localhost:8080/owner-info').then(response => response.json())
         //   .then(data => {
         //     console.log(data)
         //   }).catch((err)=>console.log(err))
-        this.setState({USER_DATA:OWNER_INFO_DATA.data, full_name:OWNER_INFO_DATA.data.full_name})
-        this.setState({USER_MEDIA:OWNER_RECENT_MEDIA.data})
+        //this.setState({USER_DATA:OWNER_INFO_DATA.data, full_name:OWNER_INFO_DATA.data.full_name})
+       
         
       }
       gridCallbackHandler=(data)=>{
-        this.setState({openModal:true, selectedImage:data})
+        this.setState({openModal:true, selectedImage:data, likeCount:0, liked:false})
       }
       editFullName=()=>{
         this.setState({openDetailModal:true})
@@ -79,12 +90,23 @@ class Profile extends Component {
       handleInputChange=inputType => event => {
         this.setState({ [inputType]: event.target.value });
       };
+      picLiked=()=>{
+        this.setState(
+            { liked : !this.state.liked},
+            () => {
+                if(this.state.liked){
+                    this.setState({likeCount:this.state.likeCount+1})
+                } else {
+                    this.setState({likeCount:this.state.likeCount-1})
+                }
+            }
+          );
+      }
     
     render() {
         const userData = this.state.USER_DATA
         const userMedia = this.state.USER_MEDIA
-        const {openModal, selectedImage, openDetailModal} = this.state
-        console.log(this.state.selectedImage)
+        const {openModal, selectedImage, openDetailModal, liked, likeCount} = this.state
         return (
             <div>
                 <Header />
@@ -144,7 +166,12 @@ class Profile extends Component {
                             })}</p>}
 
                             {userData.username && selectedImage.comment && <p><b>{userData.username}:</b> {selectedImage.comment}</p>}
+                            
                             <div className="flex-container-column justify-content-end">
+                            <div className="flex-container">
+                                <i class={liked ? 'fa heart fa-heart' : 'fa heart fa-heart-o'} onClick={this.picLiked}></i>
+                                <div>Likes {selectedImage.likes.count + likeCount}</div>
+                            </div>
                                 <form className="flex-container">
                                     <TextField
                                         id="comment"

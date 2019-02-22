@@ -77,3 +77,16 @@ hr{
     width: 40px !important;
     margin-left: 20px !important;
 }
+.fa-heart{
+    color: red;
+    cursor: pointer;
+}
+.fa-heart-o {
+    color: red;
+    cursor: pointer;
+  }
+  
+.heart{
+    margin: 0px 5px;
+    font-size:'24px'
+}

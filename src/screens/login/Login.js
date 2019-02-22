@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './Login.css';
 import Header from '../../common/header/Header';
-import * as constants from '../../constants'
 class Login extends Component {
     componentDidMount() {
         let data = null
