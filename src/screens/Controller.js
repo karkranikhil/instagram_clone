@@ -25,3 +25,4 @@ class Controller extends Component {
 }
 
 export default Controller;
+
