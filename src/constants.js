@@ -7,7 +7,13 @@ module.exports  = {
         OWNER_RECENT_MEDIA_URL : '/self/media/recent/?access_token=',
         CORS_URL:'https://cors-anywhere.herokuapp.com/',
     },
-    ACCESS_TOKEN  : '1642314104.609f4f8.28c2ae0f396e4a0dbf8c64ff5d6a9037',
+    ACCESS_TOKEN  : (function(){
+        if (typeof(Storage) !== "undefined") {
+            if (window.sessionStorage.AUTH_TOKEN) {
+                return window.sessionStorage.AUTH_TOKEN
+            }
+        }
+    })(),
     ERROR_MESSAGES:{
         INVALID_CREDENTIALS:'Incorrect username and/or password',
         REQUIRED:'required'

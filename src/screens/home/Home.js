@@ -3,6 +3,13 @@ import './Home.css';
 import Header from '../../common/header/Header';
 
 class Home extends Component {
+    componentWillMount(){
+        if (typeof(Storage) !== "undefined") {
+            if (!window.sessionStorage.AUTH_TOKEN) {
+                this.props.history.push('/')
+            }
+        }
+    }
     render() {
         return (
             <div>

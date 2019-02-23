@@ -52,7 +52,13 @@ class Profile extends Component {
           xhr.open("GET", url);
           xhr.send(data)
     }
-    
+    componentWillMount(){
+        if (typeof(Storage) !== "undefined") {
+            if (!window.sessionStorage.AUTH_TOKEN) {
+                this.props.history.push('/')
+            }
+        }
+    }
     componentDidMount() {
         this.getOwnerInfo()
         this.getOwnerMedia()

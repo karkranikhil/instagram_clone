@@ -27,7 +27,27 @@ class Login extends Component {
             
         }
     }
-    
+    componentDidMount(){
+        let token = window.location.hash.split('=')[1]
+        if(token){
+            window.opener.authCallback(token)
+        }
+    }
+    getAccessToken=()=>{
+        let url = `${constants.URL_LIST.AUTH_URL}`
+        let popup = window.open(url,'Login with Spotify', 'width=800,height=600')
+        window.authCallback = (token) => {        
+            popup.close()
+            if (typeof(Storage) !== "undefined") {
+                if (window.sessionStorage.AUTH_TOKEN) {
+                    this.props.history.push('/home')
+                } else {
+                    window.sessionStorage.AUTH_TOKEN = token
+                    this.props.history.push('/home')
+                }
+            }
+        }
+    }
     handleInputChange=inputType => event => {
         const { formData, error } = this.state;
         formData[inputType] = event.target.value;
@@ -45,8 +65,8 @@ class Login extends Component {
         const { formData, error } = this.state;
         this.setState({error:resetField});
        if(formData.username === 'username' && formData.password === 'password'){
-           this.props.history.push('/home')
-           //this.getAccessToken()
+           
+           this.getAccessToken()
        } else if(formData.username && formData.password && formData.username !== 'username' && formData.password !== 'password'){
             error['invalid'] = constants.ERROR_MESSAGES.INVALID_CREDENTIALS
         }   else {
