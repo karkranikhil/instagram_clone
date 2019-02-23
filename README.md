@@ -1,6 +1,6 @@
-# ImageViewer
+# instagram_clone
 
-ImageViewer is a web application, which allows a user to view his/her own profile and the images posted by the user on his/her Instagram account.
+instagram_clone is a web application, which allows a user to view his/her own profile and the images posted by the user on his/her Instagram account.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
