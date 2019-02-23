@@ -1,0 +1,24 @@
+.card-container{
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 2%;
+}
+.card-container>div{
+    padding: 5% 10%;
+}
+.field-flex{
+    display: flex !important;
+    margin-bottom: 5% !important;
+}
+.font-Size-24{
+    font-size: 24px;
+}
+.margin-top-bottom-10px{
+    margin: 10px 0px;
+}
+.error-color{
+    color: red !important;
+}
+.margin-top-5-per{
+    margin-top: 5% !important;
+}

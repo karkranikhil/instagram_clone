@@ -7,6 +7,7 @@ class Header extends Component {
             <div>
                 <header className='app-header'>
                     <span className='app-logo'>Image Viewer</span>
+                    {this.props.login && <img className="flex-item logged-in-user" src={this.props.login} alt="profile pic"/>}
                 </header>
             </div>
         )

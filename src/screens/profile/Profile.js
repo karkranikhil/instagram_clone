@@ -26,11 +26,11 @@ class Profile extends Component {
     }
     getOwnerInfo=()=>{
         let data = null
-        let url = `${constants.CORS_URL}${constants.URL_LIST.BASE_URL}${constants.URL_LIST.OWNER_INFO_URL}${constants.ACCESS_TOKEN}`
+        let url = `${constants.URL_LIST.CORS_URL}${constants.URL_LIST.BASE_URL}${constants.URL_LIST.OWNER_INFO_URL}${constants.ACCESS_TOKEN}`
         let xhr = new XMLHttpRequest();
         let self = this
         xhr.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
+            if (this.readyState === 4 && this.status === 200) {
              let OWNER_INFO_DATA = JSON.parse(this.responseText)
              self.setState({USER_DATA:OWNER_INFO_DATA.data, full_name:OWNER_INFO_DATA.data.full_name})
             }
@@ -40,11 +40,11 @@ class Profile extends Component {
     }
     getOwnerMedia =()=>{
         let data = null
-        let url = `${constants.CORS_URL}${constants.URL_LIST.BASE_URL}${constants.URL_LIST.OWNER_RECENT_MEDIA_URL}${constants.ACCESS_TOKEN}`
+        let url = `${constants.URL_LIST.CORS_URL}${constants.URL_LIST.BASE_URL}${constants.URL_LIST.OWNER_RECENT_MEDIA_URL}${constants.ACCESS_TOKEN}`
         let xhr = new XMLHttpRequest();
         let self = this
         xhr.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
+            if (this.readyState === 4 && this.status === 200) {
              let OWNER_RECENT_MEDIA = JSON.parse(this.responseText)
              self.setState({USER_MEDIA:OWNER_RECENT_MEDIA.data})
             }
@@ -99,7 +99,7 @@ class Profile extends Component {
         const {openModal, selectedImage, openDetailModal, liked, likeCount} = this.state
         return (
             <div>
-                <Header />
+                <Header login={userData && userData.profile_picture}/>
                 {userData && <div className="container flex-container pd-top-5-per">
                     <img className="profile-pic flex-item" src={userData.profile_picture} alt="profile pic"/>
                     <div className="flex-container-column">
